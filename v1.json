@@ -77,6 +77,74 @@
         }
       }
     },
+    "/api/posts": {
+      "post": {
+        "tags": [
+          "Post"
+        ],
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "Content": {
+                    "type": "string"
+                  },
+                  "UserId": {
+                    "type": "string"
+                  },
+                  "Image.FileData": {
+                    "type": "string",
+                    "format": "byte"
+                  },
+                  "Image.OriginalFileName": {
+                    "type": "string"
+                  },
+                  "Image.Url": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Post"
+        ],
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Users/profile": {
       "get": {
         "tags": [
@@ -130,6 +198,9 @@
   "tags": [
     {
       "name": "Auth"
+    },
+    {
+      "name": "Post"
     },
     {
       "name": "Users"

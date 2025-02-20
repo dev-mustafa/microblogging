@@ -36,5 +36,14 @@ public class PostController(IValidator<CreatePostDto> validator, IPostsService p
 
         return CreatedAtAction(nameof(CreatePost), new { id }, request);
     }
+
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> CreatePost(int pageNumber, int pageSize)
+    {
+        var posts = await postsService.ListPosts(pageNumber, pageSize);
+        return Ok(posts);
+    }
+
 }
 

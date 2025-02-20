@@ -2,6 +2,7 @@
 using MicroBlog.Domain.Dtos;
 using MicroBlog.Domain.Entities;
 using MicroBlog.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace MicroBlog.Domain.Services
 {
@@ -21,6 +22,19 @@ namespace MicroBlog.Domain.Services
             };
             await CreateAsync(post);
             return post.Id;        
+        }
+
+        async Task<List<PostDto>> IPostsService.ListPosts(int pageNumber, int pageSize)
+        {
+            var start = (pageNumber - 1) * pageSize;
+            var posts = await context.Posts
+                .Include(x => x.Reactions)
+                .Include(x => x.User)
+                .OrderByDescending(x => x.CreatedAt)
+                .Skip(start)
+                .Take(pageSize)
+                .ToListAsync();
+            return posts.Select(x => new PostDto(x)).ToList();
         }
     }
 }
